@@ -15,7 +15,7 @@ export async function login(formData: FormData) {
 
   // You might want to return an error message to the client here.
   // For simplicity, we just redirect.
-  redirect("/admin/login?error=InvalidCredentials");
+  redirect("/login?error=InvalidCredentials");
 }
 
 export async function logout() {

@@ -23,7 +23,7 @@ export async function Header() {
             </Button>
           ) : (
             <Button asChild variant="ghost">
-              <Link href="/admin/login">
+              <Link href="/login">
                 <LogIn className="mr-2 h-4 w-4" />
                 Admin
               </Link>

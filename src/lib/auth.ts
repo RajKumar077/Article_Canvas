@@ -35,13 +35,13 @@ export async function getSession(): Promise<SessionData | null> {
 
 export async function deleteSession() {
   cookies().delete(SESSION_COOKIE_NAME)
-  redirect('/admin/login');
+  redirect('/login');
 }
 
 export async function verifySession() {
   const session = await getSession();
   if (!session?.isLoggedIn) {
-    redirect('/admin/login')
+    redirect('/login')
   }
   return { session };
 }
