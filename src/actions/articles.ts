@@ -1,3 +1,4 @@
+
 "use server";
 
 import { revalidatePath } from "next/cache";
@@ -6,7 +7,7 @@ import { z } from "zod";
 import * as data from "@/lib/data";
 
 const ArticleSchema = z.object({
-  title: z.string().min(1, "Title is required"),
+  title: z.string().min(1, "Title is required").max(100, "Title cannot be more than 100 characters"),
   shortDescription: z
     .string()
     .min(1, "Short description is required")
