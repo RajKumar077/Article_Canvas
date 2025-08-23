@@ -7,10 +7,18 @@ import * as data from "@/lib/data";
 
 const ArticleSchema = z.object({
   title: z.string().min(1, "Title is required"),
-  shortDescription: z.string().min(1, "Short description is required"),
-  content: z.string().min(1, "Content is required"),
+  shortDescription: z
+    .string()
+    .min(1, "Short description is required")
+    .max(100, "Short description cannot be more than 100 characters"),
+  content: z
+    .string()
+    .min(1, "Content is required")
+    .max(500, "Content cannot be more than 500 characters"),
   posterImage: z.string().url("Must be a valid URL"),
-  images: z.string().transform((str) => str.split('\n').filter(url => url.trim() !== '')),
+  images: z
+    .string()
+    .transform((str) => str.split("\n").filter((url) => url.trim() !== "")),
 });
 
 export async function createArticle(formData: FormData) {

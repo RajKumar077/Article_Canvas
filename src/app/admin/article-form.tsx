@@ -45,6 +45,7 @@ export function ArticleForm({ article, action }: ArticleFormProps) {
                 name="shortDescription"
                 defaultValue={article?.shortDescription}
                 required
+                maxLength={100}
               />
             </div>
             <div className="space-y-2">
@@ -55,6 +56,7 @@ export function ArticleForm({ article, action }: ArticleFormProps) {
                 defaultValue={article?.content}
                 required
                 rows={10}
+                maxLength={500}
               />
             </div>
             <div className="space-y-2">
