@@ -14,12 +14,34 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import type { Article } from "@/lib/types";
+import { Badge } from "@/components/ui/badge";
+import { X } from "lucide-react";
 
 interface ArticleFormProps {
   article?: Article | null;
   action: (formData: FormData) => Promise<void>;
 }
+
+const availableTags = [
+  "Technology",
+  "Health & Wellness",
+  "Travel",
+  "Food & Recipes",
+  "Education & Learning",
+  "Business & Finance",
+  "Entertainment",
+  "Science & Nature",
+  "Lifestyle & Personal Growth",
+  "News & Current Events",
+];
 
 export function ArticleForm({ article, action }: ArticleFormProps) {
   const router = useRouter();
@@ -27,10 +49,22 @@ export function ArticleForm({ article, action }: ArticleFormProps) {
   const [title, setTitle] = useState(article?.title || "");
   const [shortDescription, setShortDescription] = useState(article?.shortDescription || "");
   const [content, setContent] = useState(article?.content || "");
+  const [selectedTags, setSelectedTags] = useState<string[]>(article?.tags || []);
 
   const maxTitleLength = 100;
   const maxShortDescriptionLength = 100;
   const maxContentLength = 500;
+  const maxTags = 10;
+
+  const handleTagSelect = (tag: string) => {
+    if (tag && !selectedTags.includes(tag) && selectedTags.length < maxTags) {
+      setSelectedTags([...selectedTags, tag]);
+    }
+  };
+
+  const handleTagRemove = (tagToRemove: string) => {
+    setSelectedTags(selectedTags.filter((tag) => tag !== tagToRemove));
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -105,6 +139,39 @@ export function ArticleForm({ article, action }: ArticleFormProps) {
                 placeholder="One URL per line"
                 rows={5}
               />
+            </div>
+             <div className="space-y-2">
+              <Label htmlFor="tags">Tags</Label>
+              <Select onValueChange={handleTagSelect} disabled={selectedTags.length >= maxTags}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select up to 10 tags" />
+                </SelectTrigger>
+                <SelectContent>
+                  {availableTags.map((tag) => (
+                    <SelectItem key={tag} value={tag} disabled={selectedTags.includes(tag)}>
+                      {tag}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+               <p className="text-sm text-muted-foreground text-right">
+                {selectedTags.length} / {maxTags}
+              </p>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {selectedTags.map((tag) => (
+                   <Badge key={tag} variant="secondary" className="flex items-center gap-1">
+                     {tag}
+                     <button type="button" onClick={() => handleTagRemove(tag)} className="rounded-full hover:bg-muted-foreground/20">
+                       <X className="h-3 w-3" />
+                       <span className="sr-only">Remove {tag}</span>
+                     </button>
+                   </Badge>
+                ))}
+              </div>
+              {/* Hidden inputs to send tags with the form */}
+              {selectedTags.map(tag => (
+                <input type="hidden" key={tag} name="tags" value={tag} />
+              ))}
             </div>
             <div className="flex justify-end space-x-2">
               <Button

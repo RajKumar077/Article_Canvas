@@ -26,7 +26,8 @@ const fromFirestore = (docSnap: any): Article => {
     shortDescription: data.shortDescription,
     content: data.content,
     posterImage: data.posterImage,
-    images: data.images,
+    images: data.images || [],
+    tags: data.tags || [],
     // Convert Firestore Timestamp to ISO string
     createdAt: (data.createdAt as Timestamp).toDate().toISOString(),
     readTimeMinutes: data.readTimeMinutes,

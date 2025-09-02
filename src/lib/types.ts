@@ -5,6 +5,7 @@ export interface Article {
   content: string;
   posterImage: string;
   images: string[];
+  tags: string[];
   createdAt: string;
   readTimeMinutes: number;
 }

@@ -67,6 +67,14 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         </div>
       )}
 
+      {article.tags && article.tags.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-8">
+          {article.tags.map((tag) => (
+            <Badge key={tag} variant="outline">{tag}</Badge>
+          ))}
+        </div>
+      )}
+
       <div className="prose dark:prose-invert max-w-none text-lg leading-relaxed">
         {article.content.split('\n').map((paragraph, index) => (
           <p key={index}>{paragraph}</p>

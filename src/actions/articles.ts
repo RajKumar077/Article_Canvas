@@ -20,6 +20,7 @@ const ArticleSchema = z.object({
   images: z
     .string()
     .transform((str) => str.split("\n").filter((url) => url.trim() !== "")),
+  tags: z.array(z.string()).max(10, "You can select up to 10 tags."),
 });
 
 export async function createArticle(formData: FormData) {
@@ -29,6 +30,7 @@ export async function createArticle(formData: FormData) {
     content: formData.get("content"),
     posterImage: formData.get("posterImage"),
     images: formData.get("images"),
+    tags: formData.getAll("tags"),
   });
 
   if (!validatedFields.success) {
@@ -51,6 +53,7 @@ export async function updateArticle(id: string, formData: FormData) {
     content: formData.get("content"),
     posterImage: formData.get("posterImage"),
     images: formData.get("images"),
+    tags: formData.getAll("tags"),
   });
 
   if (!validatedFields.success) {
